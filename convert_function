@@ -1,0 +1,61 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define MAX 1000
+
+void funcFunc(int ln,FILE *fp);
+
+char *str[]={"int func(int a,b,c:float acd,fgh)",
+             "float fuction(float a,sd, asd: sasd c,v,f)",
+             "char fn(sn asd,asd,sd: dsd cd,cdd)",
+             "intint ddn(var nam,nam2,nam3: var2 smd, sd,sdf)"
+            };
+    
+main()
+{
+ int i;
+ FILE *fp=fopen("res.txt","w+");
+for(i=0;i<4;i++)
+ funcFunc(i,fp);
+ fclose(fp);
+}
+
+void funcFunc(int ln,FILE *fp)
+{
+ int i=0,k=0,j=0,l=0,n1;
+  char str2[MAX]={},temp[10]={},temp2[10]={};
+  
+  for(j=0,i=0;str[ln][i]!='(';j++,i++){
+   str2[j]=str[ln][i];}
+   str2[j]='(';
+   i++;
+   j++;
+ while(str[ln][i]!=')')
+  {
+     k=0;  
+     while(str[ln][i]!=' ')
+     {
+     temp[k]=str[ln][i];
+     i++;
+     k++;
+     }
+    temp[k]=' ';
+    temp[++k]='\0';
+    ++i;
+    while(str[ln][i]!=':' && str[ln][i]!=')')
+    {
+     for(l=0;str[ln][i]!=',' && str[ln][i]!=':' && str[ln][i]!=')';i++){temp2[l++]=str[ln][i];}
+     temp2[l]='\0';
+     strcat(str2,temp);
+     strcat(str2,temp2);
+     strcat(str2,",");
+     if(str[ln][i]==','){++i;}
+    }
+    if(str[ln][i]==':'){i++;}
+    for(;str[ln][i]==' ';i++);
+   
+  }
+str2[strlen(str2)-1]=')';
+fprintf(fp,"%s\n",str2);
+
+}
